@@ -1,0 +1,46 @@
+
+
+给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+
+你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
+
+示例:
+
+给定 nums = [2, 7, 11, 15], target = 9
+
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+
+
+1
+class Solution:
+2
+    def twoSum(self, nums, target):
+3
+        """
+4
+        :type nums: List[int]
+5
+        :type target: int
+6
+        :rtype: List[int]
+7
+        """
+8
+        for i in range(len(nums)):
+9
+            if(nums[i]<target):
+10
+                for j in range(i):
+11
+                    if(nums[i]+nums[j]==target):
+12
+                        return [j,i]
+13
+            else:
+14
+                return []
+
+思路_参考暴力法，暂无其他思路
+方案：暴力法改进 n2复杂度
+知识点：无
