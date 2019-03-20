@@ -14,3 +14,28 @@ class Solution:
                     if len(substring) > rst:
                         rst=len(substring)
         return rst
+
+思路：原本思路为单个for循环，发现子串会漏，随即增加每个tmpstr子串的遍历。
+     —— 速度太慢，比纯粹暴力法稍好(当遇到重复串时break，但下一个从i开始遍历的流程依旧从i+1开始判断，非滑动窗口思想)
+方案：暴力法改进
+知识点：滑动窗口法、改进的滑动窗口法
+
+
+滑动窗口：
+思路：遍历尾端，起点滑动
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        ans=0
+        i = 0
+        for j in range(len(s)):
+            tmpstr = s[i:j]
+            if s[j] in tmpstr:
+                i=i+tmpstr.find(s[j])+1
+            else:
+                ans = max(ans, j - i + 1)
+        return ans
+
+if __name__ == '__main__':
+    a = Solution()
+    a.lengthOfLongestSubstring('dvdf')
+感觉不用find速度会更快一些
