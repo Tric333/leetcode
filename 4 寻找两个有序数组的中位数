@@ -7,5 +7,12 @@ class Solution:
         else:
             return (nums_sum[int((nums_len-1)/2)])
 
-思想:先排序再找中位数
-方法：
+思路：先排序，再找中位数很轻松
+方案：使用sorted方法排序
+知识点：
+    1/两个list相连： （1）使用 list1.extend(list2) / list1 + list2  向尾部追加list2的各个元素   [1,2,3,6,4]
+                    （2）使用 list1.append(list2)   整个list2作为1个元素追加至list1  [1,2,3,[6,4]]
+                    
+    2/排序使用python内置 sorted方法，可以补充下这方面知识
+
+其他：leetcode代码运行时间有BUG，用已有的快速方案测试结果和自己写的差不多
