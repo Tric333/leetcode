@@ -1,0 +1,11 @@
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        nums_sum =sorted(nums1 + nums2)
+        nums_len = len(nums_sum)
+        if nums_len% 2 == 0:
+            return (nums_sum[int(nums_len/2) -1] + nums_sum[int(nums_len/2)])/2
+        else:
+            return (nums_sum[int((nums_len-1)/2)])
+
+思想:先排序再找中位数
+方法：
