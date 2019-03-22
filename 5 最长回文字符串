@@ -21,5 +21,10 @@ class Solution:
           当step为负时表示倒序，但是当需要实现倒序截取时，start > end  并且注意 start为实际的start end 为end+1 但无法遍历至起点
           建议使用s[-1][start:end]的方式实现倒序截取
        
+       3/取整方法
+         向下取整 int()
+         四舍五入 round()
+         向上取整 import math 
+                 math.ceil(3.25) 
 
 其他：
