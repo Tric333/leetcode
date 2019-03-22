@@ -1,0 +1,25 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        max_str = ''
+        for i in range(len(s)): # 起点
+            if len(max_str) > (len(s) - i):
+                break
+            for j in range(i,len(s)): # 终点
+                if self.isPalindrome(s[i:j+1]) and (j+1-i) > len(max_str):
+                    max_str = s[i:j+1]
+        return max_str
+
+    def isPalindrome(self, s:str) -> bool:
+        return s[:int(len(s)/2)] == s[::-1][:int(len(s)/2)]
+        
+思路：一开始考虑中心扩展算法，对于子字符串如何遍历没有考虑清楚，随后考虑暴力法，但提交后超时
+方案：考虑使用其他方法解决
+知识点：1/字符串切片起止问题 [start:end:step] 字符串由start起，终点为 end-1 ！非 end，步进为 step。
+          当start/end入参为负时表示从相反方向开始
+
+       2/字符串倒序问题
+          当step为负时表示倒序，但是当需要实现倒序截取时，start > end  并且注意 start为实际的start end 为end+1 但无法遍历至起点
+          建议使用s[-1][start:end]的方式实现倒序截取
+       
+
+其他：
