@@ -1,0 +1,36 @@
+将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
+
+
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if s == '' or numRows == 1:
+            return s
+        column = (len(s) // (numRows + (numRows - 2)) + 1) * (numRows - 2 + 1)
+        a = [[0]* column for i in range(numRows)]
+
+        rev = False;
+        i = j = 0
+        for c in s:
+            if rev == False:
+                a[i][j] = c
+                i+=1
+            else:
+                a[i][j] = c
+                i-=1
+                j+=1
+            #当前行处理完后判断是否进入反向流程
+            if i == numRows - 1 or i == 0:
+                rev = ~rev
+        return ''.join([a[i][j] for i in range(numRows)
+                        for j in range(column)
+                        if a[i][j] != 0])
+                        
+   
+思路：用了笨办法，先列出二维字符串数组，再依次判断是否为空，进行join 后面再优化。比较快的方案用的都是排序算法
+方案：用二维数组解决
+知识点：
+    1/ 二维数组的创建 [0]* column for i in range(numRows)]
+    2/ 推导式/ [out_exp_res for out_exp in input_exp if fun()]  与 for if 循环之间的转换思维
+    3/ 取反 ~
+    4/ 'c'.join(item)方法  将 item 内的元素用 'c'进行连接并输出string
+    
