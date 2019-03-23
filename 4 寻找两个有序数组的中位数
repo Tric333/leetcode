@@ -14,5 +14,6 @@ class Solution:
                     （2）使用 list1.append(list2)   整个list2作为1个元素追加至list1  [1,2,3,[6,4]]
                     
     2/排序使用python内置 sorted方法，可以补充下这方面知识
-
+    
+    3/ python 中 使用 // 为整形除法 向下取证，可不用int()
 其他：leetcode代码运行时间有BUG，用已有的快速方案测试结果和自己写的差不多
