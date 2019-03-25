@@ -1,0 +1,66 @@
+修补方案：没啥参考价值
+class Solution:
+    def myAtoi(self, string: str) -> int:
+        string = string.strip()
+        if string == "":
+            return 0
+        i=0
+        if string[i] not in '+-0123456789':
+            return 0
+
+        signal = ''
+        while(i < len(string)):
+            if string[i] == '+':
+                signal += '+'
+                i+=1
+            elif string[i] == '-':
+                signal += '-'
+                i+=1
+            else:
+                break
+
+        if len(signal) > 1 or len(signal) == len(string):
+            return 0
+        j = i
+        while(j < len(string)):
+            if string[j] in '0123456789':
+                j+=1
+            else:
+                break
+
+        if i == j:
+            return 0
+        ans = int(signal + ''.join([c for c in string[i:j] if c in '0123456789']))
+        if ans < - 2**31 :
+            return - 2**31
+        elif ans > 2**31 -1:
+            return 2**31-1
+        else:
+            return ans
+            
+正则表达式方案：
+class Solution:
+    def myAtoi(self, str: str) -> int:
+        a = ''.join(re.findall(r'^[-+]{0,1}\d+', str.strip()))
+        # 当a为空字符串返回0
+        if not a:
+            return 0
+        a = int(a)
+        b = 2 ** 31
+        if a > b - 1:
+            return b - 1
+        elif a < -b:
+            return -b
+        else:
+            return a
+
+ 思路：按照题目描述判断，各种用例试错，虽然通过了但代码太恶心了。后面改用正则表达式
+ 方案：正则表达式
+ 知识点：
+        1/str.strip() 删除字符串开头及结尾的' '
+        2/re.findall() #查找所有满足表达式字符串
+          re表达式知识点
+            ^从字符串开头开始匹配
+            [-+]匹配[]内字符
+            {n,m} 从 匹配n到m个
+        3/判断非空字符串 if not a :
