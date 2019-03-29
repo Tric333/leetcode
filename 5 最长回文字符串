@@ -28,3 +28,49 @@ class Solution:
                  math.ceil(3.25) 
 
 其他：
+
+动态规划 down-up 1.0版本 可能内存超限
+class SolutionDP:
+    def longestPalindrome(self,s:str) -> str:
+        if len(s) < 2:
+            return s
+        p = [[-1] * len(s) for i in range(len(s))]
+        for i in range(len(s)):
+            p[i][i] = True
+        for i in range(len(s)-1):
+            if s[i] == s[i+1]:
+                p[i][i+1] = True
+            else:
+                p[i][i+1] = False
+
+        self.__longestPalindrome_aux(p, s, 0, len(s)-1)
+
+        b=e=a=0
+        for i in range(len(s)):
+            for j in range(1+i,len(s)):
+                if p[i][j] == True and j-i > a:
+                    a = j -i
+                    b = i
+                    e = j
+        return s[b:e+1]
+
+
+    def __longestPalindrome_aux(self,p,s:str,start:int,end:int):
+        maxstart = 0
+        maxend = 0
+        if p[start][end] != -1:
+            return p[start][end]
+        for i in range(3,end-start+2): # 总回文长度
+            for j in range(start,end-i+2): # 子字符串起点
+                b = j
+                e = j+i-1 #str end 标识 -1  代表从0开始的end编号
+                p[b][e] = self.__longestPalindrome_aux(p,s,b+1,e -1) and s[b] == s[e]
+                if p[b][e]:
+                    if e - b > maxend-maxstart:
+                        maxstart = b
+                        maxend = e
+                        ans=s[maxstart:maxend+1]
+                else:
+                    p[b][e] = False
+        return p[start][end]
+
