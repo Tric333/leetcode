@@ -74,3 +74,34 @@ class SolutionDP:
                     p[b][e] = False
         return p[start][end]
 
+bottom-up:
+class SolutionDP_downup:
+
+    def longestPalindrome(self,s:str) -> str:
+        ans = ''
+        p = [[-1] * len(s) for i in range(len(s))]
+
+        for i in range(len(s)):
+            p[i][i] = True
+            ans = s[0:1]
+        for i in range(len(s)-1):
+            if s[i] == s[i+1]:
+                p[i][i+1] = True
+                ans = s[i:i+2]
+            else:
+                p[i][i+1] = False
+
+        ans_len = len(ans)
+        for i in range(3,len(s)+1):
+            for j in range(0,len(s)-i+1):
+                try:
+                    p[j][j+i-1] = p[j+1][j+i-2] and s[j] == s[j+i-1]
+                except:
+                    print(i,j)
+                if p[j][j+i-1] == True:
+                    if ans_len < i:
+                        ans_len = i
+                        ans = s[j:j+i]
+                else:
+                    p[j][j+i-1] = False
+        return ans
