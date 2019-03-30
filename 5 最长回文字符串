@@ -29,7 +29,7 @@ class Solution:
 
 其他：
 
-动态规划 down-up 1.0版本 可能内存超限
+up-down 1.0 可能内存超限
 class SolutionDP:
     def longestPalindrome(self,s:str) -> str:
         if len(s) < 2:
@@ -74,7 +74,71 @@ class SolutionDP:
                     p[b][e] = False
         return p[start][end]
 
-bottom-up:
+up-down 2.0
+
+class Solution_DP_upbottom:
+    def __init__(self, s=''):
+        self.max_string = s
+
+    def longestPalindrome(self,s:str) -> str:
+
+        str_length = len(s)
+        p = [[-1 for _ in range(str_length)] for _ in range(str_length)]
+        if str_length == 0: # 由于down-up 需要先访问p[start][end-1] 当 字符串 end为0时会产生错误
+            return self.max_string
+        self.__longestPalindrome_aux(p, s, 0, len(s))
+        return self.max_string
+
+    def __longestPalindrome_aux(self,p,s:str,start:int,end:int):
+        if p[start][end-1] != -1:
+            return p[start][end-1]
+        for length in range(0,end-start): # 总回文长度
+            for left in range(start,end-length): # 子字符串起点
+                right = left + length
+                if s[left] == s[right]:
+                    if length < 2 or self.__longestPalindrome_aux(p,s,left+1,right-1+1):
+                        p[left][right] = True
+                        if right - left > len(self.max_string) - 1:
+                            self.max_string = s[left:right+1]
+                    else:
+                        p[left][right] = False
+                else:
+                    p[left][right] = False
+
+        return p[left][right]
+        
+up-down 2.1 
+# up-down 在迭代初始时需要区分特殊情况(首次迭代或终止条件 此处为 end != len(s))
+# p 初始化为False,当子字符串非True时可以不在赋值
+
+class Solution_DP_upbottom:
+    def __init__(self, s=''):
+        self.max_string = s
+
+    def longestPalindrome(self,s:str) -> str:
+
+        str_length = len(s)
+        p = [[False for _ in range(str_length)] for _ in range(str_length)]
+        if str_length == 0:
+            return self.max_string
+        self.__longestPalindrome_aux(p, s, 0, len(s))
+        return self.max_string
+
+    def __longestPalindrome_aux(self,p,s:str,start:int,end:int):
+        if end != len(s):
+            return p[start][end-1]
+        for length in range(0,end-start): # 总回文长度
+            for left in range(start,end-length): # 子字符串起点
+                right = left + length
+                if s[left] == s[right]:
+                    if length < 2 or self.__longestPalindrome_aux(p,s,left+1,right-1+1):
+                        p[left][right] = True
+                        if right - left > len(self.max_string) - 1:
+                            self.max_string = s[left:right+1]
+
+        return p[left][right]
+
+bottom-up:1.0
 class SolutionDP_downup:
 
     def longestPalindrome(self,s:str) -> str:
@@ -106,6 +170,22 @@ class SolutionDP_downup:
                     p[j][j+i-1] = False
         return ans
 
+bottom-up 2.0
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        str_length = len(s)
+        p = [[False for _ in range(str_length)] for _ in range(str_length)]
+
+        longest_sub_str=''
+        for length in range(str_length):
+            for start in range(str_length - length):
+                end = start+length
+                if s[start] == s[end]:
+                    if length < 2 or p[start + 1][end - 1] == True:
+                        p[start][end] = True
+                        if length > len(longest_sub_str) - 1:
+                            longest_sub_str = s[start:end+1]
+        return longest_sub_str
 
 学习：
 import pytest
