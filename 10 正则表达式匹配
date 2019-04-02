@@ -40,6 +40,35 @@ class Solution:
 
         return False not in dp
 
+1.0通过用例338/447
 
+#coding=utf-8
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        dp = [ False for _ in range(len(s))]
+        p_mode = 0
+        s_left = 0
+        if len(s) == 0:
+            return True
+        #用p匹配s -> 遍历p 当p满足s且p已至列尾时返回成功
+        for p_left in range(len(p)):
+            if s_left == len(s):
+                break
+
+            if s[s_left] == p[p_left] or p[p_left] == '.':
+                dp[s_left] = True
+            elif s[s_left] == p[max(0,p_left - 1)] and p[p_left] == '*':
+                dp[s_left] = True
+                p_left -=1
+            elif '.' == p[max(0,p_left - 1)] and p[p_left] == '*':
+                dp[s_left] = True
+                p_left -=1
+
+            if p[p_left].isalnum() and dp[s_left] != True:
+                s_left+=1
+            elif dp[s_left] == True:
+                s_left+=1
+
+        return False not in dp
 思路：先按照区分匹配模式的方式进行，走一步看一步，代码很乱
 
