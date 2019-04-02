@@ -1,1 +1,45 @@
-暂时没有好思路
+#coding=utf-8
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        dp = [ False for _ in range(len(s))]
+        #匹配模式 0 - 正常匹配 1 .*匹配 2 c*匹配
+        p_mode = 0
+        p_left=0
+
+        if len(s) == 0:
+            return True
+        for s_left in range(len(s)):
+            #第一次匹配
+            if s_left == 0 and (p.find(s[s_left]) or p.find('.')):
+                dp[s_left] = True
+                if p.find('.') == -1:
+                    p_left = p.find(s[s_left])
+                elif p.find(s[s_left]) == -1:
+                    p_left = p.find('.')
+                else:
+                    p_left = min(p.find(s[s_left]),p.find('.'))
+            else:
+                if p_left + 1 < len(p):
+                    #正常匹配
+                    if (dp[s_left - 1] and p[p_left+1] == s[s_left]):
+                        dp[s_left] = True
+                        p_left+=1
+                    # .* 匹配
+                    elif p[p_left+1] == '.' or (p[p_left] == '.'and p[p_left + 1] == '*'):
+                        dp[s_left] = True
+                    #  c*匹配
+                    elif p[p_left] == s[s_left] and p[p_left+1] == '*':
+                        dp[s_left] = True
+                    elif p_left +2 < len(p) and p[p_left+2] == s[s_left]:
+                        dp[s_left] = True
+                        p_left+=2
+                    elif p[p_left+1] == '.':
+                        dp[s_left] = True
+                        p_left+=1
+
+
+        return False not in dp
+
+
+思路：先按照区分匹配模式的方式进行，走一步看一步，代码很乱
+
