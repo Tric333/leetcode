@@ -6,15 +6,16 @@ class Solution:
         elif len(strs) == 1:
             return strs[0]
         else:
-            max_len = len(strs[0])
+            min_str_len = len(strs[0])
 
         for i in strs:
-            max_len = min(max_len,len(i))
+            min_str_len = min(min_str_len,len(i))
 
         ans =  ''
-        for i in range(max_len-1):
+        for i in range(min_str_len):
             for j in range(len(strs)-1):
                 if strs[j][i] != strs[j+1][i]:
                     return ans
             ans += strs[j][i]
         return ans
+思路：纵向比较字符串的最长相同字符，需要考虑特殊情况 [] ['a']
