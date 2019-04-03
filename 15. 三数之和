@@ -1,0 +1,75 @@
+1.0
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums = sorted(nums)
+        ans = []
+        if len(nums) < 3:
+            return ans
+        #tar_index 最多遍历至倒数第三个位置
+        tar = float('inf')
+        for tar_index in range(len(nums)-2):
+            if nums[tar_index] == tar:
+                continue
+            left, right = tar_index + 1, len(nums)-1
+            while(left < right):
+                if -nums[tar_index] == nums[left] + nums[right]:
+                    ans.append([nums[tar_index],nums[left],nums[right]])
+                    tar = nums[tar_index]
+                    move = 0
+                    while left < right and nums[left] == nums[left+1]:
+                        left+=1
+                        move = 1
+                    while right > left and nums[right] == nums[right-1]:
+                        right-=1
+                        move = 1
+                    if move == 0:
+                        left+=1
+                elif -nums[tar_index] > nums[left] + nums[right]:
+                    left+=1
+                else:
+                    right-=1
+
+        #此处未排序会导致重复结果未相邻时后续无法正确表示出来
+        ans = sorted(ans)
+        removed_list = []
+        #在此直接removed会导致迭代异常，因此将要removed的list先记录下来
+        for i in range(len(ans) - 1):
+            if ans[i] == ans[i+1]:
+                removed_list.append(ans[i])
+        for i in removed_list:
+            ans.remove(i)
+
+        return ans
+
+2.0 重复项在遍历内部消化
+class Solution:
+    def threeSum(self, nums):
+        nums = sorted(nums)
+        ans = []
+        if len(nums) < 3:
+            return ans
+
+        tar = float('inf')
+        for tar_index in range(len(nums)-2):
+            #排除tar的重复值
+            if nums[tar_index] == tar:
+                continue
+            left, right = tar_index + 1, len(nums)-1
+            while(left < right):
+                if -nums[tar_index] == nums[left] + nums[right]:
+                    ans.append([nums[tar_index],nums[left],nums[right]])
+                    tar = nums[tar_index]
+                    #排除left及right的重复值并移动至下一个指针
+                    while left < right and nums[left] == nums[left+1]:
+                        left+=1
+                    left+=1
+                    while right> left and nums[right] == nums[right-1]:
+                        right-=1
+                    right-=1
+                elif -nums[tar_index] > nums[left] + nums[right]:
+                    left+=1
+                else:
+                    right-=1
+        return ans
+        
+思路：双指针
