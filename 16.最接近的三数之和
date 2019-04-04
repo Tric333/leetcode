@@ -1,0 +1,27 @@
+class Solution:
+    def threeSumClosest(self, nums, target: int) -> int:
+        if len(nums) <= 3 :
+            a = 0
+            for _,value in enumerate(nums):
+                a +=value
+            return a
+        nums = sorted(nums)
+        #ans数值始终保持如下原则
+        ans = float('inf')
+        for first_num in range(len(nums)-2):
+            second_num = first_num+1
+            thrid_num = len(nums)-1
+            while(second_num < thrid_num):
+                temp = nums[first_num] + nums[second_num] + nums[thrid_num]
+                if temp == target:
+                    return target
+                elif temp < target:
+                    if abs(target - ans) >= abs (target - temp):
+                        ans = temp
+                    second_num+=1
+                elif temp > target:
+                    if abs(target - ans) >= abs (target - temp):
+                        ans = temp
+                    thrid_num-=1
+        return ans
+  思路：排序+双指针
