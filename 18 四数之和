@@ -1,0 +1,28 @@
+class Solution:
+    def fourSum(self, nums, target: int):
+        nums = sorted(nums)
+        ans = []
+        if len(nums) < 4:
+            return ans
+
+        # 排除first_num second_num的重复值有点困难，此处先不剪枝了
+        for first_num in range(len(nums)-3):
+            for second_num in range(first_num+1,len(nums)-2):
+                third_num, fourth_num = second_num + 1, len(nums)-1
+                while(third_num < fourth_num):
+                    temp = nums[first_num] + nums[second_num] + nums[third_num] + nums[fourth_num]
+                    if temp == target:
+                        #由于first_num second_num未去重，此处可能有重复值，但是简单去重可能导致遗漏，后续再优化
+                        if [nums[first_num],nums[second_num],nums[third_num],nums[fourth_num]] not in ans:
+                            ans.append([nums[first_num],nums[second_num],nums[third_num],nums[fourth_num]])
+                        #排除third_num及fourth_num的重复值并移动至下一个指针
+                        while third_num < fourth_num and nums[third_num] == nums[third_num+1]:third_num+=1
+                        while fourth_num> third_num and nums[fourth_num] == nums[fourth_num-1]:fourth_num-=1
+                        third_num+=1;fourth_num-=1
+                    elif temp < target:
+                        third_num+=1
+                    else:
+                        fourth_num-=1
+        return ans
+        
+思路：3数+1个循环
