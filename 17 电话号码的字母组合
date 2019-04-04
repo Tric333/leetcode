@@ -1,0 +1,36 @@
+class Solution:
+    def letterCombinations(self, digits: str):
+        keys = {'2':'abc','3':'def','4':'ghi','5':'jkl','6':'mno','7':'pqrs','8':'tuv','9':'wxyz'}
+        words= [keys[_] for _ in digits if _ in keys]
+        if len(words) == 0:
+            return []
+        else:
+            ans = [_ for _ in words[0]]
+        for i in range(1,len(words)):
+            temp = ans
+            for j in range(len(words[i])):
+                a = [(_ + words[i][j]) for _ in temp]
+                if j == 0:
+                    ans = a
+                else:
+                    ans += a
+
+        return ans
+
+1.0
+        words= [keys[_] for _ in digits if _ in keys]
+
+        ans = [_ for _ in words[0]]
+        for i in range(1,len(words)):
+            ans = [pre+ post for pre in ans for post in words[i]]
+
+2.0
+        ans = ['']
+        for i in digits:
+            ans = [pre+post for pre in ans for post in keys[i]]
+            
+思路：每次整个list扩大下个数字对应字母的倍数，使用两个循环进行遍历外层list和子字母list
+方案：
+知识点：
+    1/感觉可以用列表推导式但没往那方面想，可以更加精简代码
+    2/答案有用BFS或者DFS的，需要学习
