@@ -1,0 +1,29 @@
+class Solution:
+    def isValid(self, s: str) -> bool:
+        bracket_dic = {'(':')',
+                       ')':'(',
+                       '{':'}',
+                       '}':'{',
+                       '[':']',
+                       ']':'['}
+        ans = ['']
+
+        for i in s:
+            if ans == ['']:
+                ans.append(i)
+                continue
+            if bracket_dic[ans[-1]] == i:
+                ans.pop()
+            else:
+                ans.append(i)
+        return ans == ['']
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.isValid(''))
+    
+    
+思路：经典栈题，当然可以用其他方案
+方案：字典+栈
+知识点：
+  1/可以开坑基算法导论第10章本数据结构
