@@ -1,0 +1,58 @@
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        ans_list = []
+        while(l1 != None and l2 != None):
+            if l1.val > l2.val:
+                ans_list.append(l1.val)
+                l1 = l1.next
+            else:
+                ans_list.append(l2.val)
+                l2=l2.next
+        while(l1 != None):
+            ans_list.append(l1.val)
+            l1=l1.next
+        while(l2 != None):
+            ans_list.append(l2.val)
+            l2=l2.next
+
+        for i in range(len(ans_list)):
+            if i == 0:
+                ans = ListNode(ans_list[i])
+                p = ans
+            else:
+                p.next = ListNode(ans_list[i])
+                p = p.next
+
+        return ans
+
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.isValid(''))
+    
+思路：比较后重组链表
+方案：
+知识点：
+    python链表的特殊性，可以先构建一个哑元节点作为链表头节点，最后返回该节点的next，否则代码不好写
+    
+    class Solution:
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        res = ListNode(None)
+        node = res
+        while l1 and l2:
+            if l1.val<l2.val:
+                node.next,l1 = l1,l1.next
+            else:
+                node.next,l2 = l2,l2.next
+            node = node.next
+        if l1:
+            node.next = l1
+        else:
+            node.next = l2
+        return res.next  
