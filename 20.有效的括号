@@ -9,9 +9,11 @@ class Solution:
         ans = ['']
 
         for i in s:
-            if ans == ['']:
+            if ans == [''] and i in '([{':
                 ans.append(i)
                 continue
+            elif ans == [''] and i in ')}]':
+                return False
             if bracket_dic[ans[-1]] == i:
                 ans.pop()
             else:
@@ -21,7 +23,6 @@ class Solution:
 if __name__ == '__main__':
     a = Solution()
     print(a.isValid(''))
-    
     
 思路：经典栈题，当然可以用其他方案
 方案：字典+栈
