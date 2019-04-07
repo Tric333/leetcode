@@ -1,0 +1,78 @@
+思路：一开始觉得需要用递归，生成可用答案。但是由于1/对于结果的保存存在问题，2递归思路不清晰，后改为生成所有可能结果，用有效的括号进行判断。
+    目前1.0用所有结果写，2.0用可用答案写
+方案：递归
+知识点：python传值皆为传引用。区分传递数值和可变对象（list,dic等）的差异
+2.0
+class Solution:
+    def __init__(self):
+        self.ans_list = []
+    def generateParenthesis(self, n: int):
+        self.ParenthesisIter(n,0,'')
+        return self.ans_list
+
+    def ParenthesisIter(self, l : int, r: int, ans: str) -> str:
+        # l : 剩余可用左括号数
+        # r : 剩余可用右括号数
+        # ans : 临时存储之前递归产生的括号字符串
+        
+        #仅剩可用右括号，全部增加之答案并保存
+        if l == 0:
+            self.ans_list.append(ans + ')'* r)
+            return
+        #由于此处l必然>0 因此可以减少剩余可用左括号数，增加剩余可用右括号数 -> 即画一个左括号
+        self.ParenthesisIter(l -1, r + 1,ans + '(')
+        #当剩余右括号可用数>0时，可以仅减少剩余右括号可用数 -> 即画一个右括号
+        if r > 0:
+            self.ParenthesisIter(l, r -1,ans + ')')
+        return
+
+1.0
+class Solution:
+    def __init__(self):
+        self.ans_list = []
+    def generateParenthesis(self, n: int):
+        self.ParenthesisIter(n,0,'')
+        temp = []
+        for i in self.ans_list:
+            if self.isValid(i) == True:
+                temp.append(i)
+        return temp
+
+    def ParenthesisIter(self, l : int, r: int, ans: str) -> str:
+        if l == 0:
+            self.ans_list.append(ans + ')'* r)
+            return
+
+        ans1 = ans + '('
+        self.ParenthesisIter(l -1, r + 1,ans1)
+        if r >= 0:
+            ans2 = ans + ')'
+            self.ParenthesisIter(l, r -1,ans2)
+        return
+    def isValid(self, s: str) -> bool:
+        bracket_dic = {'(':')',
+                       ')':'(',
+                       '{':'}',
+                       '}':'{',
+                       '[':']',
+                       ']':'['}
+        ans = ['']
+
+        for i in s:
+            if ans == [''] and i in '([{':
+                ans.append(i)
+                continue
+            elif ans == [''] and i in ')}]':
+                return False
+            if bracket_dic[ans[-1]] == i:
+                ans.pop()
+            else:
+                ans.append(i)
+        return ans == ['']
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.generateParenthesis(3))
+    
+    
+2.0 改进
