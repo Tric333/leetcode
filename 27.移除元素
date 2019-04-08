@@ -1,0 +1,12 @@
+class Solution:
+    def removeDuplicates(self, nums) -> int:
+        temp = float('inf')
+        i = 0
+        while(i < len(nums)):
+            if temp == nums[i]:
+                nums.pop(i)
+            else:
+                temp = nums[i]
+                i+=1
+
+        return len(nums)
