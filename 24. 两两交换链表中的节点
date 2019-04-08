@@ -1,3 +1,7 @@
+思路：
+
+知识点： 递归 http://39.96.217.32/blog/4
+
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, x):
