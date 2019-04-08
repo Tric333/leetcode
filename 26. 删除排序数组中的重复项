@@ -1,0 +1,17 @@
+思路：循环遍历删数据 https://www.cnblogs.com/bananaplan/p/remove-listitem-while-iterating.html
+      https://majing.io/posts/10000020711168
+方案：
+知识点：
+
+class Solution:
+    def removeDuplicates(self, nums) -> int:
+        temp = float('inf')
+        i = 0
+        while(i < len(nums)):
+            if temp == nums[i]:
+                nums.pop(i)
+            else:
+                temp = nums[i]
+                i+=1
+
+        return len(nums)
