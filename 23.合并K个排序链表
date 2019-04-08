@@ -1,0 +1,20 @@
+class Solution:
+    def mergeKLists(self, lists):
+        combine_list = []
+        for i in lists:
+            while(i != None):
+                combine_list.append(i.val)
+                i = i.next
+        combine_list = sorted(combine_list)
+        head = ListNode(None)
+        p = head
+        for i in combine_list:
+            p.next = ListNode(i)
+            p = p.next
+        return head.next
+ 
+ 思路：提取至list，排序后重新输出链表。空间复杂度较高。可以用时间换空间，后续修改
+ 方案：
+ 知识点：a.append -> 将目标作为object直接加至list
+        a.extend -> 将目标list内的每个对象链接至a，该对象必须为可迭代的
+        a.append(2) == a.extern([2])
