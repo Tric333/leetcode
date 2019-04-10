@@ -1,0 +1,30 @@
+思路：时间复杂度必须logn 必须使用二分法
+
+class Solution:
+    def searchRange(self, nums, target: int):
+        if nums == []:
+            return [-1,-1]
+        return self.searchRangeIter(0,len(nums)-1,nums,target)
+
+    def searchRangeIter(self,l,r,nums,target):
+        if l == r:
+            if nums[l] == target:
+                return [l,r]
+            else:
+                return [-1,-1]
+        else:
+            sub_l = self.searchRangeIter(l,(l+r)//2,nums,target)
+            sub_r = self.searchRangeIter((l+r)//2+1,r,nums,target)
+            if sub_l == sub_r == [-1,-1]:
+                return [-1,-1]
+            elif sub_l == [-1,-1]:
+                return sub_r
+            elif sub_r == [-1,-1]:
+                return sub_l
+            else:
+                return [min(sub_l[0],sub_r[0]),max(sub_l[1],sub_r[1])]
+
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.searchRange([5,7,7,8,8,10],6))
