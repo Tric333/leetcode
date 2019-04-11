@@ -1,0 +1,8 @@
+思路： 找最后一个空格/可改为找最后一个由空格分隔的字符长度
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        return len(s.strip()) if ' ' not in s.strip() else s.strip()[::-1].find(' ')
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.lengthOfLastWord(" "))
