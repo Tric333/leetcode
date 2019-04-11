@@ -1,0 +1,28 @@
+思路：本来以为s中的子字符串长度与words中的相同，还是需要仔细审题。
+      目前暂时用暴力法，勉强能过，后面改进
+      
+class Solution:
+    def findSubstring(self, s: str, words):
+        if words == [] or s == []:
+            return []
+
+        ans = []
+        tempwords = words[:]
+        for i in range(len(s) - len(words) * len(words[0]) + 1):
+            j = i
+            b = j
+            tempwords = words[:]
+            while(tempwords != []):
+                if s[j:j+len(words[0])] in tempwords:
+                    tempwords.remove(s[j:j+len(words[0])])
+                    j+=len(words[0])
+                    if tempwords == []:
+                        ans.append(b)
+                        break
+                else:
+                    break
+        return ans
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.findSubstring("lingmindraboofooowingdingbarrwingmonkeypoundcake",["fooo","barr","wing","ding","wing"]))
