@@ -1,0 +1,23 @@
+思路:递归
+
+class Solution:
+    def __init__(self):
+        self.ans = []
+        
+    def permute(self, nums):
+        self._permuteIter(nums,[])
+        return self.ans
+
+    def _permuteIter(self,nums:list,sub_nums:list):
+        if len(nums) == 1:
+            sub_nums.extend(nums)
+            self.ans.append(sub_nums)
+            return
+        else:
+            for i in nums:
+                temp_nums = nums[:]
+                temp_ans = sub_nums[:]
+                temp_nums.remove(i)
+                temp_ans.append(i)
+                self._permuteIter(temp_nums,temp_ans)
+            return
