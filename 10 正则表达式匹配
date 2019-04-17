@@ -1,3 +1,62 @@
+思路：使用顺序匹配由于不存在回退的流程，感觉难以实现目标。在了解了动态规划后决定采用该方法进行代码编写。
+方案：动态规划，与<39 组合总和>思路相似，差异在终止条件更为复杂，选择区分匹配或可跳过等
+
+知识点：动态规划
+
+class Solution:
+    def __init__(self):
+        self.result = False
+    def isMatch(self, s: str, p: str) -> bool:
+        self.result = False
+        self._isMatchIter(s,0,p)
+        return self.result
+
+    def _isMatchIter(self,target, i, sub_re):
+        # target : 目标字符串
+        # i : 当前需要匹配的字符index
+        # sub_re : 剩余的正则表达式
+        if self.result == True:
+            return
+        if i == len(target):
+            if sub_re == '' or (len(sub_re) == 2 and sub_re[-1] == '*'):
+                self.result = True
+            elif len(sub_re) > 2 and sub_re[1] == '*':
+                self._isMatchIter(target,i,sub_re[2:])
+            return
+        if sub_re == '':
+            if i == len(target):
+                self.result = True
+            return
+        else:
+            #正则表达式最前面的2个元素内无*的匹配流程，此时必须进行匹配检测。检查类型 'c','.', c代表任意字符
+            #由逻辑保证当前2个元素出现*时必然在第2个位置
+            if len(sub_re) < 2 or '*' != sub_re[1]:
+                if target[i] == sub_re[0] or sub_re[0] == '.':
+                    self._isMatchIter(target,i+1,sub_re[1:])
+            #前2元素内存在 * 的匹配流程，进行0-1分支
+            else:
+                #重复且可匹配，正则表达式分为两个分支，继续匹配或跳过当前通配符
+                if target[i] == sub_re[0] or sub_re[0] == '.':
+                    self._isMatchIter(target,i,sub_re[2:])
+                    self._isMatchIter(target,i+1,sub_re[:])
+                #重复但不可匹配，跳过
+                else:
+                    self._isMatchIter(target,i,sub_re[2:])
+        return
+
+
+if __name__ == '__main__':
+    a =Solution()
+    print(a.isMatch("aa","a"))
+    print(a.isMatch("aa","a*.."))
+    print(a.isMatch("aab",".*c"))
+    print(a.isMatch('aab','c*a*b'))
+    print(a.isMatch('aaa','a*a'))
+    print(a.isMatch("aaa","ab*a*c*a"))
+    print(a.isMatch("a",".*..a*"))
+    print(a.isMatch("","c*c*"))
+
+
 #coding=utf-8
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
