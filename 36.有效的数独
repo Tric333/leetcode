@@ -1,0 +1,44 @@
+思想：行列3*3，后续可改为1次遍历
+方法：
+知识点：判断list重复 len(l) == len(set(l))
+
+
+class Solution:
+
+    def isValidSudoku(self, board) -> bool:
+        ans = True
+        for i in range(9):
+            if not self._isRepeat(self._getrow(board,i)) and \
+                not self._isRepeat(self._getcol(board,i)) and \
+                not self._isRepeat(self._getsqure(board,i)):
+                continue
+            else:
+                ans =  False
+        return ans
+
+    def _getrow(self,board,row):
+        return [i for i in board[row] if i != '.']
+
+    def _getcol(self,board,col):
+        return [board[_][col] for _ in range(len(board[col])) if board[_][col] != '.']
+
+    def _getsqure(self,board,squre):
+        cent = [[1,1],[1,4],[1,7],[4,1],[4,4],[4,7],[7,1],[7,4],[7,7]]
+        return [board[cent[squre][0]+i][cent[squre][1] + j] for i in range(-1,2) for j in range(-1,2) if board[cent[squre][0]+i][cent[squre][1] + j] != '.']
+
+    def _isRepeat(self,l):
+        # l : 被检查字符串 只有数字
+        return True if len(l) != len(set(l)) else False
+
+if __name__ == '__main__':
+    a = Solution()
+    print(a.isValidSudoku([
+        [".",".",".",".","5",".",".","1","."],
+        [".","4",".","3",".",".",".",".","."],
+        [".",".",".",".",".","3",".",".","1"],
+        ["8",".",".",".",".",".",".","2","."],
+        [".",".","2",".","7",".",".",".","."],
+        [".","1","5",".",".",".",".",".","."],
+        [".",".",".",".",".","2",".",".","."],
+        [".","2",".","9",".",".",".",".","."],
+        [".",".","4",".",".",".",".",".","."]]))
