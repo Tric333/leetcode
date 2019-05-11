@@ -1,0 +1,25 @@
+知识点：默认字典，当keys不存在时自动添加该元素
+        from collections import defaultdict
+
+from collections import defaultdict
+class Solution:
+    def sortColors(self, nums) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        dic = defaultdict(int) # 默认字典元素需要对应实际使用情况
+        for i in nums:
+            dic[i]+=1
+        keys = sorted(dic.keys())
+        k = 0
+        for i in keys:
+            for j in range(dic[i]):
+                nums[k] = i
+                k+=1
+        return
+
+if __name__ == '__main__':
+    a=Solution()
+    b = [2,0,2,1,1,0]
+    print(a.sortColors(b))
+    print(b)
