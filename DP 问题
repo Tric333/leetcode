@@ -1,0 +1,42 @@
+1/由递推表达式转为 递归模式代码
+  以01背包问题为例
+  递推表达式:  F(i,j) = 1: Max{F(i-1,j) , F(i-1,j-W[i]) + V[i]}   //j>=W[i]
+                       2: F(i-1,j)                               //j< W[i]
+                       
+  迭代三要素:  1/终止条件:找到F(i,j)  //转化未 F(i,j) != None  > 0  ... 等
+              2/过程    :val = 1: Max{F(i-1,j) , F(i-1,j-W[i]) + V[i]}   //j>=W[i]
+                              2:  F(i-1,j)                               //j< W[i]
+                         F(i,j) = val
+              3/返回值  :F(i,j)
+    重要:1/过程中的F()均转化未使用当前函数的返回值
+         2/过程中的val必须赋值给F(i,j)不能直接返回
+         3/为递归完整性F(i,j),V[i],W[i] 均需要设置哑元
+#coding='utf-8'
+
+class Knapsack():
+    def __init__(self,w,v,F):
+        self.w = w
+        self.v = v
+        self.F = F
+    def updown(self,kinds,weight):
+        if F[kinds][weight] == None: #未初始化的数据进行递归求解
+            if weight < self.w[kinds]: # weight = 0时的状态在初始化时已经设置未0 不会进入该循环
+                value = self.updown(kinds-1,weight)
+            else:
+                value = max(self.updown(kinds-1,weight), self.updown(kinds-1,weight-self.w[kinds]) + self.v[kinds])
+            F[kinds][weight] = value
+        return F[kinds][weight]
+
+    def MFdownup(self):
+        pass
+
+if __name__=='__main__':
+    kind,weight = 4,5
+    F = [ [None] * (weight+1) for _ in range(kind+1)]
+    for i in range(kind+1):
+        F[i][0] = 0
+    for i in range(weight+1):
+        F[0][i] = 0
+    a = Knapsack([0,2,1,3,2],[0,12,10,20,15],F)
+    print(a.updown(kind,weight))
+    print(F)
