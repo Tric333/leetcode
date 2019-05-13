@@ -4,11 +4,11 @@
                        2: F(i-1,j)                               //j< W[i]
                        
   迭代三要素:  1/终止条件:找到F(i,j)  //转化未 F(i,j) != None  > 0  ... 等
-              2/过程    :val = 1: Max{F(i-1,j) , F(i-1,j-W[i]) + V[i]}   //j>=W[i]
-                              2:  F(i-1,j)                               //j< W[i]
+              2/过程    :val = 1: Max{Fun(i-1,j) , Fun(i-1,j-W[i]) + V[i]}   //j>=W[i]
+                               2: Fun(i-1,j)                                 //j< W[i]
                          F(i,j) = val
               3/返回值  :F(i,j)
-    重要:1/过程中的F()均转化未使用当前函数的返回值
+    重要:1/过程中的F()均转化为使用当前函数的返回值
          2/过程中的val必须赋值给F(i,j)不能直接返回
          3/为递归完整性F(i,j),V[i],W[i] 均需要设置哑元
 #coding = 'utf-8'
@@ -36,5 +36,4 @@ if __name__=='__main__':
         F[0][i] = 0
     a = Knapsack([0,2,1,3,2],[0,12,10,20,15],F)
     print(a.MPupdown(kinds,weight))
-    print(F)
-    print(F)
+    print(a.F)
