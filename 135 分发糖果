@@ -1,0 +1,87 @@
+class Solution:
+    def candy(self, ratings) -> int:
+        if len(ratings) <= 1:
+            return len(ratings)
+
+        nums = 0
+        cur_sug = 0
+        last_sug = 0
+        #suggers = []
+
+        for i in range(0,len(ratings)-1):
+            if ratings[i] > ratings [i+1]:
+                nums+=1
+            else:
+                break
+        #suggers.append(nums)
+        for i in range(1, len(ratings) - 1):
+            if ratings[i] > ratings[i - 1]:  # 继承上一个位置的糖果数
+                last_sug += 1
+            else:
+                last_sug = 0
+            for j in range(i, len(ratings) - 1):  # 贪心算法计算当前糖果后最多的糖果数
+                if ratings[j] > ratings[j + 1]:
+                    cur_sug += 1
+                else:
+                    break
+
+            #suggers.append(max(last_sug,cur_sug))
+            nums += max(last_sug, cur_sug)
+            cur_sug = 0
+        if ratings[-1] > ratings [-2]:
+            #suggers.append(last_sug+1)
+            nums +=last_sug+1
+        else:
+            #suggers.append(0)
+            nums +=0
+        #print(suggers)
+        return nums + len(ratings)
+
+    def candy1(self, ratings) -> int:
+        if len(ratings) <= 1:
+            return len(ratings)
+
+        nums = 0
+        last_sug = 0
+        suggers = []
+
+        for i in range(0,len(ratings)-1):
+            if ratings[i] > ratings [i+1]:
+                nums+=1
+            else:
+                break
+        suggers.append(nums)
+        i = 1
+        while(i < len(ratings)-1):
+            if ratings[i] > ratings[i - 1]:  # 继承上一个位置的糖果数
+                last_sug += 1
+            else:
+                last_sug = 0
+
+            for j in range(i, len(ratings) - 1):  # 贪心算法计算当前糖果后最多的糖果数
+                if ratings[j] < ratings[j + 1]:
+                    if j+1-i > last_sug:
+                        for _ in range(i, j):
+                            suggers.extend([_ for _ in range(j - i - 1, i - 2, -1)])
+                            nums += sum([_ for _ in range(j - i - 1, i - 2, -1)])
+                        i=j+1
+                        break
+                    else:
+                        suggers.append(last_sug)
+                        nums +=last_sug
+                elif j == len(ratings)-1-1:
+                    suggers.extend([_ for _ in range(j - i - 1, i - 2, -1)])
+                    nums += sum([_ for _ in range(j - i - 1, i - 2, -1)])
+                    i = j+1
+
+        if ratings[-1] > ratings [-2]:
+            suggers.append(last_sug+1)
+            nums +=last_sug+1
+        else:
+            suggers.append(0)
+            nums +=0
+        print(suggers)
+        return nums + len(ratings)
+if __name__ == '__main__':
+    a = Solution()
+    print(a.candy1([3,2,1,1,4,3,3]))
