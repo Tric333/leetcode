@@ -1,0 +1,50 @@
+思路1:先转为list,计算需要变大的值，复制树后对复制的树进行替换
+知识点:
+    1/bst在原地操作后会导致后续查找数据异常
+    2/copy bst
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+import copy
+
+class Solution:
+    def inorderTreeWalk(self, x, keys):
+        if x != None:
+            self.inorderTreeWalk(x.left, keys)
+            keys.append(x.val)
+            self.inorderTreeWalk(x.right, keys)
+            
+    def replace(self, ans, x, tar, val):
+        while x.val != tar:
+            if x.val > tar:
+                x = x.left
+                ans = ans.left
+            else:
+                x = x.right
+                ans = ans.right
+        ans.val = val
+
+    def copy_tree(self,node):
+        # 如果是空树，仍然返回空树
+        if node is None:
+            return None
+        # 分别把所有的节点递归添加到这个树中
+        lt = self.copy_tree(node.left)
+        rt = self.copy_tree(node.right)
+        new_tree = TreeNode(node.val)
+        new_tree.left, new_tree.right = lt,rt
+        return new_tree
+
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        keys = []
+        self.inorderTreeWalk(root, keys)
+        sums = sum(keys)
+        ans = self.copy_tree(root)
+        for i in keys:
+            self.replace(ans, root, i, sums)
+            sums-=i
+        return ans
