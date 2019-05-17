@@ -1,7 +1,42 @@
 思路1:先转为list,计算需要变大的值，复制树后对复制的树进行替换
 知识点:
-    1/bst在原地操作后会导致后续查找数据异常
+    1/bst在原地操作后会导致后续查找数据异常 —— 原因为使用了顺序遍历。由于二叉树的特殊性，可以使用在线逆序修改
     2/copy bst
+
+
+#逆序遍历修改版本
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+import copy
+
+class Solution:
+    def revinorderTreeWalk(self, x, keys):
+        if x != None:
+            self.revinorderTreeWalk(x.right, keys)
+            keys.append(x.val)
+            self.revinorderTreeWalk(x.left, keys)
+
+    def replace(self, x, tar, val):
+        while x.val != tar:
+            if x.val > tar:
+                x = x.left
+            else:
+                x = x.right
+        x.val = val
+
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        keys = []
+        self.revinorderTreeWalk(root, keys)
+        sums = 0
+        for i in keys:
+            sums+=i
+            self.replace(root, i, sums)
+        return root
+#顺序遍历版本
 
 # Definition for a binary tree node.
 # class TreeNode:
