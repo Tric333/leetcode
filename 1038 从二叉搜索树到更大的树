@@ -4,6 +4,52 @@
     2/copy bst
 
 
+#逆序原地修改，非全局变量版本
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        
+        def bst_to_gst(root,presum):
+            if root == None:
+                return presum
+            presum = bst_to_gst(root.right,presum)
+            presum += root.val
+            root.val = presum
+            presum = bst_to_gst(root.left,presum)
+            return presum
+        
+        _ = bst_to_gst(root,0)
+        return root
+
+#逆序原地修改，全局变量版本
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+import copy
+
+class Solution:
+    def __init__(self):
+        self.ans = 0
+        
+    def bstToGst(self, root: TreeNode) -> TreeNode:
+        if root == None:
+            return root
+        
+        self.bstToGst(root.right)
+        self.ans += root.val
+        root.val = self.ans
+        self.bstToGst(root.left)
+        return root
+
 #逆序遍历修改版本
 # Definition for a binary tree node.
 # class TreeNode:
