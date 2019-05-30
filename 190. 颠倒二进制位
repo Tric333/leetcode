@@ -1,0 +1,8 @@
+1/ 10进制转二进制 bin(n)
+2/ 左对齐 ljust = left justifying
+          ljust(32,'0') 32位左对齐补0
+class Solution:
+    # @param n, an integer
+    # @return an integer
+    def reverseBits(self, n):
+        return int(bin(n)[2:][::-1].ljust(32,'0'),2)
