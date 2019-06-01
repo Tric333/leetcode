@@ -3,7 +3,14 @@
       tip1/每次取余后返回字符串倒序
       tip/2从1开始 则每次计算字符时将n减1
   171. Excel表列序号
-  172. 阶乘后的零    
+  172. 阶乘后的零
+  206. 反转链表
+  217. 存在重复元素
+  219. 存在重复元素2
+  226. 翻转二叉树 —— 当不想改变原树时，可以使用如下流程，创建临时点t
+            t = TreeNode(root.val)
+            t.left, t.right = self.invertTree(root.right), self.invertTree(root.left)
+            return t
 分治
 
 变治
