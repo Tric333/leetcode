@@ -11,7 +11,8 @@
     重要:1/过程中的F()均转化为使用当前函数的返回值
          2/过程中的val必须赋值给F(i,j)不能直接返回
          3/为递归完整性F(i,j),V[i],W[i] 均需要设置哑元
-#coding='utf-8'
+         4/不要局限于当前对象与前一表格的关系：338比特位计数
+#coding='utf
 import copy
 class Knapsack():
     def __init__(self,w,v,F):
